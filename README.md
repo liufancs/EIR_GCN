@@ -1,5 +1,9 @@
 # EIR_GCN
 
+This is our implementation for the paper:
+
+Zhiyong Cheng, Fan Liu, Lei Zhu, Liqiang Nie and Mohan Kankanhalli. [Explicitly Exploiting Implicit User and Item Relations inGCN for Recommendation]
+
 ## Environment Settings
 - Tensorflow-gpu version:  1.3.0
 
