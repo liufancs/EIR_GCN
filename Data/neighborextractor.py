@@ -29,8 +29,8 @@ for user in user_items.keys():
     new_user_list = []
     #sorted_pict = sorted_pict[:int(0.1 * len(sorted_pict))]
     sorted_pict_len_u = len(sorted_pict)
-    if sorted_pict_len_u > 50:
-        sorted_pict = sorted_pict[:50]
+    if sorted_pict_len_u > 10:
+        sorted_pict = sorted_pict[:10]
     else:
         print('not enough')
 
@@ -59,8 +59,8 @@ for item in item_users.keys():
     new_item_list = []
     #sorted_pict = sorted_pict[:int(0.1*len(sorted_pict))]
     sorted_pict_len = len(sorted_pict)
-    if sorted_pict_len > 50:
-        sorted_pict = sorted_pict[:50]
+    if sorted_pict_len > 10:
+        sorted_pict = sorted_pict[:10]
     else:
         print('not enough')
 
@@ -70,78 +70,6 @@ for item in item_users.keys():
         pass
     else:
         train_ii.append(([item] + new_item_list))
-
-with open('train_u_t50.txt', 'w') as file:
-    for i in range(len(train_uu)):
-        sorted_pict_len_u = len(train_uu[i])
-        temp = ''
-        if sorted_pict_len_u < 50:
-            for j in range(sorted_pict_len_u):
-                if j == sorted_pict_len_u - 1:
-                    temp += train_uu[i][j] + '\n'
-                else:
-                    temp += train_uu[i][j] + ' '
-        else:
-            for j in range(50):
-                if j == 50 - 1:
-                    temp += train_uu[i][j] + '\n'
-                else:
-                    temp += train_uu[i][j] + ' '
-        file.writelines(temp)
-
-with open('train_u_t40.txt', 'w') as file:
-    for i in range(len(train_uu)):
-        sorted_pict_len_u = len(train_uu[i])
-        temp = ''
-        if sorted_pict_len_u < 40:
-            for j in range(sorted_pict_len_u):
-                if j == sorted_pict_len_u - 1:
-                    temp += train_uu[i][j] + '\n'
-                else:
-                    temp += train_uu[i][j] + ' '
-        else:
-            for j in range(40):
-                if j == 40 - 1:
-                    temp += train_uu[i][j] + '\n'
-                else:
-                    temp += train_uu[i][j] + ' '
-        file.writelines(temp)
-
-with open('train_u_t30.txt', 'w') as file:
-    for i in range(len(train_uu)):
-        sorted_pict_len_u = len(train_uu[i])
-        temp = ''
-        if sorted_pict_len_u < 30:
-            for j in range(sorted_pict_len_u):
-                if j == sorted_pict_len_u - 1:
-                    temp += train_uu[i][j] + '\n'
-                else:
-                    temp += train_uu[i][j] + ' '
-        else:
-            for j in range(30):
-                if j == 30 - 1:
-                    temp += train_uu[i][j] + '\n'
-                else:
-                    temp += train_uu[i][j] + ' '
-        file.writelines(temp)
-
-with open('train_u_t20.txt', 'w') as file:
-    for i in range(len(train_uu)):
-        sorted_pict_len_u = len(train_uu[i])
-        temp = ''
-        if sorted_pict_len_u < 20:
-            for j in range(sorted_pict_len_u):
-                if j == sorted_pict_len_u - 1:
-                    temp += train_uu[i][j] + '\n'
-                else:
-                    temp += train_uu[i][j] + ' '
-        else:
-            for j in range(20):
-                if j == 20 - 1:
-                    temp += train_uu[i][j] + '\n'
-                else:
-                    temp += train_uu[i][j] + ' '
-        file.writelines(temp)
 
 with open('train_u_t10.txt', 'w') as file:
     for i in range(len(train_uu)):
@@ -161,77 +89,6 @@ with open('train_u_t10.txt', 'w') as file:
                     temp += train_uu[i][j] + ' '
         file.writelines(temp)
 
-with open('train_i_t50.txt', 'w') as file:
-    for i in range(len(train_ii)):
-        sorted_pict_len_i = len(train_ii[i])
-        temp = ''
-        if sorted_pict_len_i < 50:
-            for j in range(sorted_pict_len_i):
-                if j == sorted_pict_len_i - 1:
-                    temp += train_ii[i][j] + '\n'
-                else:
-                    temp += train_ii[i][j] + ' '
-        else:
-            for j in range(50):
-                if j == 50 - 1:
-                    temp += train_ii[i][j] + '\n'
-                else:
-                    temp += train_ii[i][j] + ' '
-        file.writelines(temp)
-
-with open('train_i_t40.txt', 'w') as file:
-    for i in range(len(train_ii)):
-        sorted_pict_len_i = len(train_ii[i])
-        temp = ''
-        if sorted_pict_len_i < 40:
-            for j in range(sorted_pict_len_i):
-                if j == sorted_pict_len_i - 1:
-                    temp += train_ii[i][j] + '\n'
-                else:
-                    temp += train_ii[i][j] + ' '
-        else:
-            for j in range(40):
-                if j == 40 - 1:
-                    temp += train_ii[i][j] + '\n'
-                else:
-                    temp += train_ii[i][j] + ' '
-        file.writelines(temp)
-
-with open('train_i_t30.txt', 'w') as file:
-    for i in range(len(train_ii)):
-        sorted_pict_len_i = len(train_ii[i])
-        temp = ''
-        if sorted_pict_len_i < 30:
-            for j in range(sorted_pict_len_i):
-                if j == sorted_pict_len_i - 1:
-                    temp += train_ii[i][j] + '\n'
-                else:
-                    temp += train_ii[i][j] + ' '
-        else:
-            for j in range(30):
-                if j == 30 - 1:
-                    temp += train_ii[i][j] + '\n'
-                else:
-                    temp += train_ii[i][j] + ' '
-        file.writelines(temp)
-
-with open('train_i_t20.txt', 'w') as file:
-    for i in range(len(train_ii)):
-        sorted_pict_len_i = len(train_ii[i])
-        temp = ''
-        if sorted_pict_len_i < 20:
-            for j in range(sorted_pict_len_i):
-                if j == sorted_pict_len_i - 1:
-                    temp += train_ii[i][j] + '\n'
-                else:
-                    temp += train_ii[i][j] + ' '
-        else:
-            for j in range(20):
-                if j == 20 - 1:
-                    temp += train_ii[i][j] + '\n'
-                else:
-                    temp += train_ii[i][j] + ' '
-        file.writelines(temp)
 
 with open('train_i_t10.txt', 'w') as file:
     for i in range(len(train_ii)):
