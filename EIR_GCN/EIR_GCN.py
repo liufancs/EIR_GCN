@@ -20,7 +20,6 @@ class EIR_GCN(object):
 
         self.n_users = data_config['n_users']
         self.n_items = data_config['n_items']
-        self.n_relations = data_config['n_relations']
         self.n_fold = 100
         self.beta = args.beta
         self.alpha = args.alpha
@@ -45,14 +44,12 @@ class EIR_GCN(object):
 
         self.all_u_list = data_config['all_u_list']
         self.all_t_list = data_config['all_t_list']
-        self.all_r_list = data_config['all_r_list']
         self.all_v_list = data_config['all_v_list']
         self.A_in = data_config['norm_adj']
         self.A_values = tf.placeholder(tf.float32, shape=[len(self.all_v_list)])
 
         self.all_u_list_uu = data_config['all_u_list_uu']
         self.all_t_list_uu = data_config['all_t_list_uu']
-        self.all_r_list_uu = data_config['all_r_list_uu']
         self.all_v_list_uu = data_config['all_v_list_uu']
         self.A_in_uu = data_config['uu_norm_adj']
         self.A_values_uu = tf.placeholder(tf.float32, shape=[len(self.all_v_list_uu)])
@@ -67,11 +64,9 @@ class EIR_GCN(object):
         self.neg_items = tf.placeholder(tf.int32, shape=(None,))
 
         self.h = tf.placeholder(tf.int32, shape=[None], name='h')
-        self.r = tf.placeholder(tf.int32, shape=[None], name='r')
         self.pos_t = tf.placeholder(tf.int32, shape=[None], name='pos_t')
 
         self.h_uu = tf.placeholder(tf.int32, shape=[None], name='h_uu')
-        self.r_uu = tf.placeholder(tf.int32, shape=[None], name='r_uu')
         self.pos_t_uu = tf.placeholder(tf.int32, shape=[None], name='pos_t_uu')
 
         self.node_dropout_flag = args.node_dropout_flag
@@ -237,8 +232,8 @@ class EIR_GCN(object):
         return pre_out * tf.div(1., keep_prob)
 
     def _build_model_phase_II(self):
-        self.A_score = self._generate_score(self.h0, self.pos_t0, self.r0)
-        self.A_score_uu = self._generate_score(self.h0_uu, self.pos_t0_uu, self.r0_uu)
+        self.A_score = self._generate_score(self.h0, self.pos_t0)
+        self.A_score_uu = self._generate_score(self.h0_uu, self.pos_t0_uu)
         self.A_out,self.A_out_uu = self._create_attentive_A_out()
 
     def _create_attentive_A_out(self):
@@ -249,7 +244,7 @@ class EIR_GCN(object):
         A_uu = tf.sparse_softmax(tf.SparseTensor(indices_uu, self.A_values_uu, self.A_in_uu.shape))
         return A, A_uu
 
-    def _generate_score(self, u, t, r):
+    def _generate_score(self, u, t):
         embeddings = tf.concat(
             [self.weights['user_embedding'], self.weights['item_embedding']], axis=0)
         embeddings = tf.expand_dims(embeddings, 1)
@@ -273,7 +268,6 @@ class EIR_GCN(object):
                 end = (i_fold + 1) * fold_len
             feed_dict = {
                 self.h0: self.all_u_list[start:end],
-                self.r0: self.all_r_list[start:end],
                 self.pos_t0: self.all_t_list[start:end]
             }
             A_score = sess.run(self.A_score, feed_dict=feed_dict)
@@ -297,7 +291,6 @@ class EIR_GCN(object):
                 end = (i_fold + 1) * fold_len
             feed_dict_uu = {
                 self.h0_uu: self.all_u_list_uu[start:end],
-                self.r0_uu: self.all_r_list_uu[start:end],
                 self.pos_t0_uu: self.all_t_list_uu[start:end]
             }
             A_score_uu = sess.run(self.A_score_uu, feed_dict=feed_dict_uu)
@@ -322,15 +315,13 @@ if __name__ == '__main__':
     Generate the Laplacian matrix, where each entry defines the decay factor (e.g., p_ui) between two connected nodes.
     """
     plain_adj, norm_adj, mean_adj, uu_plain_adj, uu_norm_adj, uu_mean_adj = data_generator.get_adj_mat()
-    all_u_list, all_t_list, all_r_list, all_v_list = data_generator._get_all_kg_data(norm_adj)
-    all_u_list_uu, all_t_list_uu, all_r_list_uu, all_v_list_uu = data_generator._get_all_kg_data_uu(uu_norm_adj)
+    all_u_list, all_t_list, all_v_list = data_generator._get_all_kg_data(norm_adj)
+    all_u_list_uu, all_t_list_uu, all_v_list_uu = data_generator._get_all_kg_data_uu(uu_norm_adj)
     config['all_u_list'] = all_u_list
     config['all_t_list'] = all_t_list
-    config['all_r_list'] = all_r_list
     config['all_v_list'] = all_v_list
     config['all_u_list_uu'] = all_u_list_uu
     config['all_t_list_uu'] = all_t_list_uu
-    config['all_r_list_uu'] = all_r_list_uu
     config['all_v_list_uu'] = all_v_list_uu
     config['n_relations'] = 2
 
