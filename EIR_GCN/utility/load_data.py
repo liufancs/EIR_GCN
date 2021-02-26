@@ -214,44 +214,38 @@ class Data(object):
         all_h_list = list(lap.row)
         all_t_list = list(lap.col)
         all_v_list = list(lap.data)
-        all_r_list = [0] * len(all_h_list)
 
         org_h_dict = dict()
 
         for idx, h in enumerate(all_h_list):
             if h not in org_h_dict.keys():
-                org_h_dict[h] = [[], [], []]
+                org_h_dict[h] = [[], []]
 
             org_h_dict[h][0].append(all_t_list[idx])
-            org_h_dict[h][1].append(all_r_list[idx])
-            org_h_dict[h][2].append(all_v_list[idx])
+            org_h_dict[h][1].append(all_v_list[idx])
 
         sorted_h_dict = dict()
         for h in org_h_dict.keys():
-            org_t_list, org_r_list, org_v_list = org_h_dict[h]
+            org_t_list, org_v_list = org_h_dict[h]
             sort_t_list = np.array(org_t_list)
             sort_order = np.argsort(sort_t_list)
 
             sort_t_list = _reorder_list(org_t_list, sort_order)
-            sort_r_list = _reorder_list(org_r_list, sort_order)
             sort_v_list = _reorder_list(org_v_list, sort_order)
 
-            sorted_h_dict[h] = [sort_t_list, sort_r_list, sort_v_list]
+            sorted_h_dict[h] = [sort_t_list, sort_v_list]
         print('\tsort meta-data done.')
 
         od = collections.OrderedDict(sorted(sorted_h_dict.items()))
-        new_h_list, new_t_list, new_r_list, new_v_list = [], [], [], []
+        new_h_list, new_t_list, new_v_list = [], [], []
 
         for h, vals in od.items():
             new_h_list += [h] * len(vals[0])
             new_t_list += list(vals[0])
-            new_r_list += list(vals[1])
-            new_v_list += list(vals[2])
+            new_v_list += list(vals[1])
 
-        all_h_list, all_t_list, all_r_list, all_v_list = new_h_list, new_t_list, new_r_list, new_v_list
-        for i in range(len(all_h_list)):
-            all_r_list[i] = 0
-        return all_h_list, all_t_list, all_r_list, all_v_list
+        all_h_list, all_t_list, all_v_list = new_h_list, new_t_list, new_v_list
+        return all_h_list, all_t_list, all_v_list
 
     def _get_all_kg_data_uu(self, norm_adj):
         def _reorder_list(org_list, order):
@@ -263,44 +257,39 @@ class Data(object):
         all_h_list = list(lap.row)
         all_t_list = list(lap.col)
         all_v_list = list(lap.data)
-        all_r_list = [0] * len(all_h_list)
 
         org_h_dict = dict()
 
         for idx, h in enumerate(all_h_list):
             if h not in org_h_dict.keys():
-                org_h_dict[h] = [[], [], []]
+                org_h_dict[h] = [[], []]
 
             org_h_dict[h][0].append(all_t_list[idx])
-            org_h_dict[h][1].append(all_r_list[idx])
-            org_h_dict[h][2].append(all_v_list[idx])
+            org_h_dict[h][1].append(all_v_list[idx])
 
         sorted_h_dict = dict()
         for h in org_h_dict.keys():
-            org_t_list, org_r_list, org_v_list = org_h_dict[h]
+            org_t_list, org_v_list = org_h_dict[h]
             sort_t_list = np.array(org_t_list)
             sort_order = np.argsort(sort_t_list)
 
             sort_t_list = _reorder_list(org_t_list, sort_order)
-            sort_r_list = _reorder_list(org_r_list, sort_order)
             sort_v_list = _reorder_list(org_v_list, sort_order)
 
-            sorted_h_dict[h] = [sort_t_list, sort_r_list, sort_v_list]
+            sorted_h_dict[h] = [sort_t_list, sort_v_list]
         print('\tsort meta-data done.')
 
         od = collections.OrderedDict(sorted(sorted_h_dict.items()))
-        new_h_list, new_t_list, new_r_list, new_v_list = [], [], [], []
+        new_h_list, new_t_list, new_v_list = [], [], []
 
         for h, vals in od.items():
             new_h_list += [h] * len(vals[0])
             new_t_list += list(vals[0])
-            new_r_list += list(vals[1])
-            new_v_list += list(vals[2])
+            new_v_list += list(vals[1])
 
-        all_h_list, all_t_list, all_r_list, all_v_list = new_h_list, new_t_list, new_r_list, new_v_list
-        for i in range(len(all_h_list)):
-            all_r_list[i] = 1
-        return all_h_list, all_t_list, all_r_list, all_v_list
+        all_h_list, all_t_list, all_v_list = new_h_list, new_t_list, new_v_list
+   
+        return all_h_list, all_t_list, all_v_list
 
     def print_statistics(self):
         print('n_users=%d, n_items=%d' % (self.n_users, self.n_items))
