@@ -232,8 +232,8 @@ class EIR_GCN(object):
         return pre_out * tf.div(1., keep_prob)
 
     def _build_model_phase_II(self):
-        self.A_score = self._generate_score(self.h0, self.pos_t0)
-        self.A_score_uu = self._generate_score(self.h0_uu, self.pos_t0_uu)
+        self.A_score = self._generate_score(self.h, self.pos_t)
+        self.A_score_uu = self._generate_score(self.h_uu, self.pos_t_uu)
         self.A_out,self.A_out_uu = self._create_attentive_A_out()
 
     def _create_attentive_A_out(self):
@@ -267,8 +267,8 @@ class EIR_GCN(object):
             else:
                 end = (i_fold + 1) * fold_len
             feed_dict = {
-                self.h0: self.all_u_list[start:end],
-                self.pos_t0: self.all_t_list[start:end]
+                self.h: self.all_u_list[start:end],
+                self.pos_t: self.all_t_list[start:end]
             }
             A_score = sess.run(self.A_score, feed_dict=feed_dict)
             kg_score += list(A_score)
@@ -290,8 +290,8 @@ class EIR_GCN(object):
             else:
                 end = (i_fold + 1) * fold_len
             feed_dict_uu = {
-                self.h0_uu: self.all_u_list_uu[start:end],
-                self.pos_t0_uu: self.all_t_list_uu[start:end]
+                self.h_uu: self.all_u_list_uu[start:end],
+                self.pos_t_uu: self.all_t_list_uu[start:end]
             }
             A_score_uu = sess.run(self.A_score_uu, feed_dict=feed_dict_uu)
             kg_score_uu += list(A_score_uu)
@@ -323,7 +323,6 @@ if __name__ == '__main__':
     config['all_u_list_uu'] = all_u_list_uu
     config['all_t_list_uu'] = all_t_list_uu
     config['all_v_list_uu'] = all_v_list_uu
-    config['n_relations'] = 2
 
     if args.adj_type == 'plain':
         config['norm_adj'] = plain_adj
